@@ -69,7 +69,7 @@ const handleResetTimer = (value = randomNumber(60, 120)) => {
       <div class="flex-1 flex flex-col items-center justify-center">
         <span class="text-white text-xl">Rank:{{ rank }}</span>
         <h2 v-if="isGameOver" class="mt-5 text-xl text-red-600 select-none animate-bounce">{{ 'GAME OVER' }}</h2>
-        <h2 v-if="isVictory" class="mt-5 text-xl text-yellow-600 select-none animate-pulse">{{ 'FINISH!' }}</h2>
+        <h2 v-if="isVictory" class="mt-5 text-xl text-yellow-600 select-none animate-pulse">{{ 'COMPLETE!' }}</h2>
       </div>
       <SuperStars />
     </header>
