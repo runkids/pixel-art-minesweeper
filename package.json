@@ -1,5 +1,5 @@
 {
-  "name": "minesweeper",
+  "name": "pixel-art-minesweeper",
   "description": "💣 Tiny pixel art style minesweeper game",
   "version": "1.0.0",
   "type": "module",

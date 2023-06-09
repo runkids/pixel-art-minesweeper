@@ -11,8 +11,6 @@ declare module 'vue' {
     Heart: typeof import('./src/components/Heart.vue')['default']
     Minesweeper: typeof import('./src/components/Minesweeper/index.vue')['default']
     MinesweeperInfo: typeof import('./src/components/Minesweeper/Info.vue')['default']
-    MinesweeperTitle: typeof import('./src/components/Minesweeper/Info.vue')['default']
-    SuperStar: typeof import('./src/components/SuperStars.vue')['default']
     SuperStars: typeof import('./src/components/SuperStars.vue')['default']
     Twemoji: typeof import('./src/components/Twemoji.vue')['default']
   }
