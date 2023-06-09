@@ -1,9 +1,5 @@
-import type { Ref } from 'vue'
-
-interface UseMinesweeperProps {
-  boardSize: Ref<number>
-  mineCount: Ref<number>
-}
+import { defineStore } from 'pinia'
+import { randomNumber } from '@/utils/index'
 
 export interface Cell {
   isMine: boolean // 表示是否為地雷
@@ -22,13 +18,17 @@ const deltas = [
   [1, 0],
   [1, 1],
 ]
-
-export function useMinesweeper({ boardSize, mineCount }: UseMinesweeperProps) {
+export const useMinesweeper = defineStore('minesweeper', () => {
+  const initBoardSize = randomNumber(8, 16)
+  const initMineCount = randomNumber(Math.floor(initBoardSize ** 2 / 6), Math.floor(initBoardSize ** 2 / 4))
+  const boardSize = ref(initBoardSize)
+  const mineCount = ref(initMineCount)
   const cells = ref<Cell[]>([])
   const isStarted = ref(false)
   const isGameOver = ref(false)
   const isVictory = ref(false)
-  const flags = ref(mineCount.value)
+  const flags = ref(initMineCount)
+  const latestClickIndex = ref(-1)
 
   const traverseCellNeighbors = (
     targetIndex: number,
@@ -92,10 +92,13 @@ export function useMinesweeper({ boardSize, mineCount }: UseMinesweeperProps) {
       isStarted.value = true
       await placeMines(index)
     }
+
     const cell = cells.value[index]
+
     if (cell.isMine) {
       cell.isRevealed = true
       isGameOver.value = true
+      latestClickIndex.value = index
     } else {
       if (cell.adjacentMines > 0) {
         cell.isRevealed = true
@@ -158,6 +161,7 @@ export function useMinesweeper({ boardSize, mineCount }: UseMinesweeperProps) {
     if (!cell.isRevealed || cell.adjacentMines === 0) {
       return
     }
+
     let flaggedCount = 0
 
     traverseCellNeighbors(
@@ -200,9 +204,13 @@ export function useMinesweeper({ boardSize, mineCount }: UseMinesweeperProps) {
     isGameOver.value = false
     isStarted.value = false
     isVictory.value = false
+    latestClickIndex.value = -1
+
+    boardSize.value = randomNumber(8, 16)
+    const totalCells = Math.pow(boardSize.value, 2)
+    mineCount.value = randomNumber(Math.floor(totalCells / 6), Math.floor(totalCells / 4))
     flags.value = mineCount.value
 
-    const totalCells = Math.pow(boardSize.value, 2)
     cells.value = Array.from({ length: totalCells }, () => ({
       isMine: false,
       isRevealed: false,
@@ -215,13 +223,16 @@ export function useMinesweeper({ boardSize, mineCount }: UseMinesweeperProps) {
     isVictory.value = !cells.value.some((cell) => !cell.isMine && !cell.isRevealed)
   }
 
-  watch([boardSize, mineCount], restart, { immediate: true })
+  const restorePreviousStep = () => {
+    isGameOver.value = false
+    if (latestClickIndex.value === -1) return
+    cells.value[latestClickIndex.value].isRevealed = false
+    latestClickIndex.value = -1
+  }
 
-  watch(isGameOver, (gameOver) => {
-    if (gameOver) {
-      showAllMines()
-    }
-  })
+  const setIsGameOver = () => {
+    isGameOver.value = true
+  }
 
   watch(isVictory, (win) => {
     if (win) {
@@ -229,11 +240,15 @@ export function useMinesweeper({ boardSize, mineCount }: UseMinesweeperProps) {
     }
   })
 
+  restart()
+
   return {
+    boardSize: readonly(boardSize),
     cells: readonly(cells),
     isGameOver: readonly(isGameOver),
     isVictory: readonly(isVictory),
     isStarted: readonly(isStarted),
+    latestClickIndex,
     flags,
     restart,
     clickSquare,
@@ -241,5 +256,8 @@ export function useMinesweeper({ boardSize, mineCount }: UseMinesweeperProps) {
     clearAdjacentSquares,
     rightClickSquare,
     doubleClickSquare,
+    restorePreviousStep,
+    showAllMines,
+    setIsGameOver,
   }
-}
+})

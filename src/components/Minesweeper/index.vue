@@ -1,84 +1,78 @@
 <script setup lang="ts">
-import { useMinesweeper, Cell } from '@/composable/useMinesweeper'
+import { useMinesweeper, Cell } from '@/stores/useMinesweeper.js'
+import { useCharacter } from '@/stores/useCharacter'
+import { SUPER_STAR_LIMIT } from '@/constants'
 
-const boardSize = ref(5)
-const mineCount = ref(1)
-const timer = ref(0)
-let interval: null | number = null
+defineProps({
+  countdown: Number,
+})
 
-const { cells, isVictory, isGameOver, isStarted, flags, restart, rightClickSquare, clickSquare, doubleClickSquare } =
-  useMinesweeper({
-    boardSize,
-    mineCount,
-  })
+const emits = defineEmits(['stop-countdown', 'start-countdown', 'reset-countdown'])
+
+const character = useCharacter()
+const { rank } = toRefs(character)
+
+const minesweeper = useMinesweeper()
+const { boardSize, cells, isVictory, isGameOver, isStarted } = toRefs(minesweeper)
 
 const showMine = (cell: Cell) => cell.isMine && cell.isRevealed
 
 const handleClick = (idx: number) => {
   const cell = cells.value[idx]
   if (!cell.isFlagged) {
-    clickSquare(idx)
+    minesweeper.clickSquare(idx)
   }
 }
 
 const handleRightClick = (idx: number) => {
-  rightClickSquare(idx)
+  minesweeper.rightClickSquare(idx)
 }
 
 const handleDoubleClick = (idx: number) => {
-  doubleClickSquare(idx)
+  minesweeper.doubleClickSquare(idx)
 }
 
 const restartGame = () => {
-  restart()
-  resetTimer()
-}
+  minesweeper.restart()
+  rank.value = 1
+  character.updateHp()
+  character.updatedItems((items) => {
+    items.superStar = SUPER_STAR_LIMIT
+    return items
+  })
 
-const resetTimer = (clearTime = true) => {
-  if (clearTime) {
-    timer.value = 0
-  }
-  if (interval) {
-    clearInterval(interval)
-  }
+  emits('stop-countdown')
+  emits('reset-countdown')
 }
 
 watch(isStarted, (started) => {
   if (started) {
-    interval = setInterval(() => {
-      timer.value++
-    }, 1000)
+    emits('start-countdown')
   }
 })
 
-watch(isGameOver, (gameOver) => {
-  if (gameOver) {
-    resetTimer(false)
+watch([isGameOver, isVictory], ([gameOver, victory]) => {
+  if (gameOver && character.items.superStar === 0) {
+    character.updateHp(0)
+    minesweeper.showAllMines()
+  }
+
+  if (gameOver || victory) {
+    emits('stop-countdown', false)
+    character.stopBleed()
   }
 })
-
-watch(isVictory, (victory) => {
-  if (victory) {
-    resetTimer(false)
-  }
-})
-
-onUnmounted(resetTimer)
 </script>
 
 <script lang="ts">
 export default {
-  name: 'mines-weeper',
+  name: 'main-minesweeper',
 }
 </script>
 
 <template>
   <div class="box-border inline-flex flex-col items-center p-10">
-    <h2 v-if="isGameOver" class="text-xl text-red-600 select-none animate-bounce">{{ 'GAME OVER' }}</h2>
-    <h2 v-if="isVictory" class="text-xl text-yellow-600 select-none">{{ 'You ARE WIN!' }}</h2>
-    <button v-if="isGameOver || isVictory" @click="restartGame">RESTART</button>
-    <div class="nes-container with-title is-dark is-centered inline-block">
-      <MinesweeperTitle :timer="timer" :flags="flags" />
+    <div class="nes-container is-rounded is-dark is-centered inline-block">
       <div class="board">
         <button
           type="button"
@@ -106,6 +100,9 @@ export default {
         </button>
       </div>
     </div>
+    <button v-if="!isStarted && rank === 1" class="nes-btn is-warning mt-10" @click="restartGame">REFRESH</button>
+    <button v-if="isGameOver" class="nes-btn is-warning mt-10" @click="restartGame">RESTART</button>
+    <slot />
   </div>
 </template>
 
