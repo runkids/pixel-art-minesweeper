@@ -141,7 +141,7 @@ export const useMinesweeper = defineStore('minesweeper', () => {
 
   // 在指定的格子上進行右鍵點擊，標記或取消標記旗幟
   const rightClickSquare = (index: number) => {
-    if (isGameOver.value || isVictory.value) return
+    if (isGameOver.value || isVictory.value || cells.value[index].isRevealed) return
     if (!cells.value[index].isFlagged && flags.value === 0) {
       return
     }

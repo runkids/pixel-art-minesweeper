@@ -2,7 +2,7 @@
 import { useCountdown } from '@/composable/useCountdown'
 import { useCharacter } from '@/stores/useCharacter'
 import { randomNumber } from '@/utils/index'
-import { useMinesweeper } from './stores/useMinesweeper'
+import { useMinesweeper } from '@/stores/useMinesweeper'
 
 const showSuperStartDialog = ref(false)
 const showNextBtn = ref(false)
