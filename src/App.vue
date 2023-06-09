@@ -17,7 +17,7 @@ const {
   counter: countdown,
   start: startCountdown,
   stop: stopCountdown,
-} = useCountdown(randomNumber(60, 120), {
+} = useCountdown(randomNumber(200, 600), {
   onTimeUp: character.startBleed,
 })
 
@@ -54,7 +54,7 @@ const handleConfirmNextRank = () => {
   showNextBtn.value = false
 }
 
-const handleResetTimer = (value = randomNumber(60, 120)) => {
+const handleResetTimer = (value = randomNumber(200, 600)) => {
   countdown.value = value
 }
 </script>
@@ -72,6 +72,11 @@ const handleResetTimer = (value = randomNumber(60, 120)) => {
         <h2 v-if="isVictory" class="mt-5 text-xl text-yellow-600 select-none animate-pulse">{{ 'COMPLETE!' }}</h2>
       </div>
       <SuperStars />
+      <a
+        class="nes-icon github is-medium cursor-pointer ml-4 animate-pulse"
+        href="https://github.com/runkids/pixel-art-minesweeper"
+        target="_blank"
+      />
     </header>
     <section class="flex justify-center">
       <Minesweeper
