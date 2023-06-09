@@ -7,7 +7,8 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    Minesweeper: typeof import('./src/components/Minesweeper.vue')['default']
+    Minesweeper: typeof import('./src/components/Minesweeper/index.vue')['default']
+    MinesweeperTitle: typeof import('./src/components/Minesweeper/Title.vue')['default']
     Twemoji: typeof import('./src/components/Twemoji.vue')['default']
   }
 }

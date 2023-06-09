@@ -1,0 +1,10 @@
+{
+  "semi": false,
+  "singleQuote": true,
+  "endOfLine": "auto",
+  "proseWrap": "preserve",
+  "bracketSpacing": true,
+  "vueIndentScriptAndStyle": false,
+  "printWidth": 120,
+  "tabWidth": 2
+}

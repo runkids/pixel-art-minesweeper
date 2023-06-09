@@ -20,6 +20,7 @@ export default defineConfig({
     }),
     ViteComponents({
       dts: true,
+      directoryAsNamespace: true,
     }),
   ],
   resolve: {
