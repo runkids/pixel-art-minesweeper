@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply font-body m-0 p-0;
+}
+
+.cell.nes-btn {
+  @apply bg-[#C6C6C6];
+  &.is-disabled, 
+  &.is-disabled:focus, 
+  &.is-disabled:hover,
+  &.is-disabled:active {
+    opacity: unset;
+  }
+}
