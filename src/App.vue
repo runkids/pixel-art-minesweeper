@@ -33,7 +33,7 @@ const { status, restartGame, startNextRank, consumeSuperStar, showAllMines, star
     stopCountdown()
   },
   onGameOver: (items) => {
-    stopCountdown(false)
+    stopCountdown()
     if (items.superStar > 0) {
       setTimeout(() => {
         showSuperStartDialog.value = true
@@ -52,7 +52,7 @@ const handleUseSuperStar = () => {
 
 const handleStartNextRank = () => {
   showNextBtn.value = false
-  stopCountdown(true)
+  resetCountdown(initTime(status.value.rank))
   startNextRank()
 }
 </script>

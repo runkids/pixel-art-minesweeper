@@ -19,13 +19,11 @@ export function useCountdown(initSeconds: number, { onTimeUp, onCountdown }: Opt
     }, 1000)
   }
 
-  const stop = (clearTime = true) => {
-    if (clearTime) counter.value = initSeconds
+  const stop = () => {
     if (timer) clearInterval(timer)
   }
 
   const reset = (seconds: number) => {
-    stop(true)
     counter.value = seconds ?? initSeconds
   }
 
