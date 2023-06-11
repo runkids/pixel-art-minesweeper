@@ -3,7 +3,7 @@ import { HP, SUPER_STAR_LIMIT } from '@/constants'
 import { defineStore } from 'pinia'
 import { useCountdown } from '@/composable/useCountdown'
 
-interface Items {
+export interface CharacterItems {
   timeMachine: number
   superStar: number
 }
@@ -11,7 +11,7 @@ interface Items {
 export const useCharacter = defineStore('character', () => {
   const hp = ref(HP)
   const rank = ref(1)
-  const items = ref<Items>({ timeMachine: 1, superStar: SUPER_STAR_LIMIT })
+  const items = ref<CharacterItems>({ timeMachine: 1, superStar: SUPER_STAR_LIMIT })
 
   const { start, stop } = useCountdown(HP * 10, {
     onCountdown: (counter) => {
@@ -36,9 +36,15 @@ export const useCharacter = defineStore('character', () => {
     }
   })
 
-  const updatedItems = (cb: (items: Items) => Items) => {
+  const updatedItems = (cb: (items: CharacterItems) => CharacterItems) => {
     const newItems = cb(Object.assign({}, items.value))
     items.value = newItems
+  }
+
+  const reset = () => {
+    rank.value = 1
+    hp.value = HP
+    items.value = { timeMachine: 1, superStar: SUPER_STAR_LIMIT }
   }
 
   return {
@@ -49,5 +55,8 @@ export const useCharacter = defineStore('character', () => {
     stopBleed: stop,
     updateHp,
     updatedItems,
+    reset,
   }
 })
+
+export const characterStoreToRefs = () => toRefs(useCharacter())

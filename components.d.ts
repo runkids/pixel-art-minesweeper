@@ -8,10 +8,13 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Dialog: typeof import('./src/components/Dialog/index.vue')['default']
+    DialogCompleteRankRewardContent: typeof import('./src/components/Dialog/CompleteRankRewardContent.vue')['default']
+    DialogUseSuperStarContent: typeof import('./src/components/Dialog/UseSuperStarContent.vue')['default']
     Heart: typeof import('./src/components/Heart.vue')['default']
     Minesweeper: typeof import('./src/components/Minesweeper/index.vue')['default']
     MinesweeperInfo: typeof import('./src/components/Minesweeper/Info.vue')['default']
     SuperStars: typeof import('./src/components/SuperStars.vue')['default']
+    TopBar: typeof import('./src/components/TopBar.vue')['default']
     Twemoji: typeof import('./src/components/Twemoji.vue')['default']
   }
 }

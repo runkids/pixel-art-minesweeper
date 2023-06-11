@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { useMinesweeper } from '@/stores/useMinesweeper'
+import { useGameController } from '@/composable/useGameController'
 
-defineProps<{
-  timer: number
-}>()
+const countdown = inject('countdown', 0)
 
-const { flags } = toRefs(useMinesweeper())
+const { status } = useGameController()
 </script>
 
 <script lang="ts">
@@ -19,9 +17,9 @@ export default {
     <div class="flex items-center gap-x-10 text-white">
       <span class="flex items-center gap-2">
         <Twemoji emoji="flag" />
-        {{ flags }}
+        {{ status.flags }}
       </span>
-      <span>Time: {{ timer }}s</span>
+      <span>Time: {{ countdown }}s</span>
     </div>
   </div>
 </template>

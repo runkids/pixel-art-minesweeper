@@ -3,9 +3,9 @@ interface Options {
   onCountdown?: (counter: number) => void
 }
 
-export function useCountdown(seconds: number, { onTimeUp, onCountdown }: Options) {
+export function useCountdown(initSeconds: number, { onTimeUp, onCountdown }: Options) {
   let timer: number | undefined
-  const counter = ref(seconds)
+  const counter = ref(initSeconds)
 
   const start = () => {
     timer = setInterval(() => {
@@ -20,13 +20,21 @@ export function useCountdown(seconds: number, { onTimeUp, onCountdown }: Options
   }
 
   const stop = (clearTime = true) => {
-    if (clearTime) counter.value = seconds
+    if (clearTime) counter.value = initSeconds
     if (timer) clearInterval(timer)
   }
+
+  const reset = (seconds: number) => {
+    stop(true)
+    counter.value = seconds ?? initSeconds
+  }
+
+  onUnmounted(stop)
 
   return {
     counter,
     start,
     stop,
+    reset,
   }
 }

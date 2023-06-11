@@ -1,21 +1,10 @@
 <script setup lang="ts">
-import { useCharacter } from '@/stores/useCharacter'
-import { useMinesweeper } from '@/stores/useMinesweeper'
 import { HP } from '@/constants'
+import { useGameController } from '@/composable/useGameController'
 
-defineProps<{
-  countdown: number
-}>()
+const countdown = inject('countdown', 0)
 
-const character = useCharacter()
-const { hp } = toRefs(character)
-const minesweeper = useMinesweeper()
-
-watch(hp, () => {
-  if (hp.value === 0) {
-    minesweeper.setIsGameOver()
-  }
-})
+const { status } = useGameController()
 </script>
 
 <script lang="ts">
@@ -25,7 +14,11 @@ export default {
 </script>
 
 <template>
-  <div :class="['inline-block icon-list', { 'animate-pulse': countdown === 0 && !minesweeper.isVictory && hp }]">
-    <i v-for="(heart, idx) in HP" :key="idx" :class="['nes-icon is-medium heart', { 'is-transparent': hp < heart }]" />
+  <div :class="['inline-block icon-list', { 'animate-pulse': countdown === 0 && !status.isVictory && status.hp }]">
+    <i
+      v-for="(heart, idx) in HP"
+      :key="idx"
+      :class="['nes-icon is-medium heart', { 'is-transparent': status.hp < heart }]"
+    />
   </div>
 </template>

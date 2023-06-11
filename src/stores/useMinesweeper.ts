@@ -1,11 +1,10 @@
 import { defineStore } from 'pinia'
-import { randomNumber } from '@/utils/index'
 
-export interface Cell {
-  isMine: boolean // 表示是否為地雷
-  isRevealed: boolean // 表示是否已揭開
-  isFlagged: boolean // 表示是否被標記旗幟
-  adjacentMines: number // 表示相鄰的地雷數量
+export interface Square {
+  isMine: boolean
+  isRevealed: boolean
+  isFlagged: boolean
+  adjacentMines: number
 }
 
 const deltas = [
@@ -18,19 +17,23 @@ const deltas = [
   [1, 0],
   [1, 1],
 ]
+
+export const MINIMUM_BOARD_SIZE = 8
+export const MINIMUM_MINE_COUNT = 10
+
 export const useMinesweeper = defineStore('minesweeper', () => {
-  const initBoardSize = randomNumber(8, 16)
-  const initMineCount = randomNumber(Math.floor(initBoardSize ** 2 / 6), Math.floor(initBoardSize ** 2 / 4))
-  const boardSize = ref(initBoardSize)
-  const mineCount = ref(initMineCount)
-  const cells = ref<Cell[]>([])
+  const boardSize = ref(0)
+  const mineCount = ref(0)
+  const flags = ref(0)
+  const squares = ref<Square[]>([])
+
+  const latestClickIndex = ref(-1)
+
   const isStarted = ref(false)
   const isGameOver = ref(false)
   const isVictory = ref(false)
-  const flags = ref(initMineCount)
-  const latestClickIndex = ref(-1)
 
-  const traverseCellNeighbors = (
+  const traverseSquareNeighbors = (
     targetIndex: number,
     condition: (neighborIdx: number) => boolean,
     callback: (neighborIdx: number) => void
@@ -49,43 +52,42 @@ export const useMinesweeper = defineStore('minesweeper', () => {
     }
   }
 
-  // 放置地雷於棋盤上，並且確保第一次點擊的格子不是地雷
-  const placeMines = (firstIndex: number): Promise<Cell[]> => {
+  // initial mines place and ensure first click is not a mine
+  const placeMines = (firstIndex: number): Promise<Square[]> => {
     return new Promise((resolve) => {
       let minesToPlace = mineCount.value
       while (minesToPlace > 0) {
-        const index = Math.floor(Math.random() * cells.value.length)
-        const cell = cells.value[index]
-        if (firstIndex !== index && !cell.isMine) {
-          cell.isMine = true
+        const index = Math.floor(Math.random() * squares.value.length)
+        const square = squares.value[index]
+        if (firstIndex !== index && !square.isMine) {
+          square.isMine = true
           minesToPlace--
         }
       }
       calculateAdjacentMines()
-      resolve(cells.value)
+      resolve(squares.value)
     })
   }
 
-  // 計算每個格子周圍的相鄰地雷數量
+  // Calculate adjacent mines
   const calculateAdjacentMines = () => {
-    cells.value.forEach((cell, idx) => {
-      if (!cell.isMine) {
+    squares.value.forEach((square, idx) => {
+      if (!square.isMine) {
         let count = 0
 
-        traverseCellNeighbors(
+        traverseSquareNeighbors(
           idx,
-          (neighborIdx) => cells.value[neighborIdx].isMine,
+          (neighborIdx) => squares.value[neighborIdx].isMine,
           () => {
             count++
           }
         )
 
-        cell.adjacentMines = count
+        square.adjacentMines = count
       }
     })
   }
 
-  // 點擊指定的格子，根據規則進行相應的處理
   const clickSquare = async (index: number) => {
     if (isGameOver.value) return
     if (!isStarted.value) {
@@ -93,15 +95,15 @@ export const useMinesweeper = defineStore('minesweeper', () => {
       await placeMines(index)
     }
 
-    const cell = cells.value[index]
+    const square = squares.value[index]
 
-    if (cell.isMine) {
-      cell.isRevealed = true
+    if (square.isMine) {
+      square.isRevealed = true
       isGameOver.value = true
       latestClickIndex.value = index
     } else {
-      if (cell.adjacentMines > 0) {
-        cell.isRevealed = true
+      if (square.adjacentMines > 0) {
+        square.isRevealed = true
         checkIsVictory()
       } else {
         clearAdjacentSquares(index)
@@ -109,25 +111,24 @@ export const useMinesweeper = defineStore('minesweeper', () => {
     }
   }
 
-  // 清除周圍相鄰的空格
   const clearAdjacentSquares = (index: number) => {
     const queue: number[] = [index]
 
     while (queue.length > 0) {
       const currentIdx = queue.shift()!
-      const cell = cells.value[currentIdx]
+      const square = squares.value[currentIdx]
 
-      if (!cell.isRevealed) {
-        cell.isRevealed = true
+      if (!square.isRevealed) {
+        square.isRevealed = true
 
-        if (cell.isFlagged) {
-          cell.isFlagged = false
+        if (square.isFlagged) {
+          square.isFlagged = false
         }
 
-        if (cell.adjacentMines === 0) {
-          traverseCellNeighbors(
+        if (square.adjacentMines === 0) {
+          traverseSquareNeighbors(
             currentIdx,
-            (neighborIdx) => !cells.value[neighborIdx].isRevealed,
+            (neighborIdx) => !squares.value[neighborIdx].isRevealed,
             (neighborIdx) => {
               queue.push(neighborIdx)
             }
@@ -139,15 +140,14 @@ export const useMinesweeper = defineStore('minesweeper', () => {
     checkIsVictory()
   }
 
-  // 在指定的格子上進行右鍵點擊，標記或取消標記旗幟
   const rightClickSquare = (index: number) => {
-    if (isGameOver.value || isVictory.value || cells.value[index].isRevealed) return
-    if (!cells.value[index].isFlagged && flags.value === 0) {
+    if (isGameOver.value || isVictory.value || squares.value[index].isRevealed) return
+    if (!squares.value[index].isFlagged && flags.value === 0) {
       return
     }
-    const cell = cells.value[index]
-    cell.isFlagged = !cell.isFlagged
-    if (cell.isFlagged) {
+    const square = squares.value[index]
+    square.isFlagged = !square.isFlagged
+    if (square.isFlagged) {
       flags.value--
     } else {
       flags.value++
@@ -157,25 +157,25 @@ export const useMinesweeper = defineStore('minesweeper', () => {
 
   const doubleClickSquare = (index: number) => {
     if (isGameOver.value || isVictory.value) return
-    const cell = cells.value[index]
-    if (!cell.isRevealed || cell.adjacentMines === 0) {
+    const square = squares.value[index]
+    if (!square.isRevealed || square.adjacentMines === 0) {
       return
     }
 
     let flaggedCount = 0
 
-    traverseCellNeighbors(
+    traverseSquareNeighbors(
       index,
-      (neighborIdx) => cells.value[neighborIdx].isFlagged,
+      (neighborIdx) => squares.value[neighborIdx].isFlagged,
       () => {
         flaggedCount++
       }
     )
 
-    if (flaggedCount === cell.adjacentMines) {
-      traverseCellNeighbors(
+    if (flaggedCount === square.adjacentMines) {
+      traverseSquareNeighbors(
         index,
-        (neighborIdx) => !cells.value[neighborIdx].isRevealed && !cells.value[neighborIdx].isFlagged,
+        (neighborIdx) => !squares.value[neighborIdx].isRevealed && !squares.value[neighborIdx].isFlagged,
         (neighborIdx) => {
           clickSquare(neighborIdx)
         }
@@ -184,34 +184,34 @@ export const useMinesweeper = defineStore('minesweeper', () => {
   }
 
   const showAllMines = () => {
-    cells.value.forEach((cell) => {
-      if (cell.isMine && !cell.isRevealed) {
-        cell.isRevealed = true
+    squares.value.forEach((square) => {
+      if (square.isMine && !square.isRevealed) {
+        square.isRevealed = true
       }
     })
   }
 
   const flagAllMines = () => {
-    cells.value.forEach((cell) => {
-      if (cell.isMine && !cell.isFlagged) {
-        cell.isFlagged = true
+    squares.value.forEach((square) => {
+      if (square.isMine && !square.isFlagged) {
+        square.isFlagged = true
       }
     })
     flags.value = 0
   }
 
-  const restart = () => {
+  const restart = (config?: { boardSize: number; mineCount: number }) => {
     isGameOver.value = false
     isStarted.value = false
     isVictory.value = false
     latestClickIndex.value = -1
 
-    boardSize.value = randomNumber(8, 16)
-    const totalCells = Math.pow(boardSize.value, 2)
-    mineCount.value = randomNumber(Math.floor(totalCells / 6), Math.floor(totalCells / 4))
+    boardSize.value = config?.boardSize ?? MINIMUM_BOARD_SIZE
+    const totalSquares = Math.pow(boardSize.value, 2)
+    mineCount.value = config?.mineCount ?? MINIMUM_MINE_COUNT
     flags.value = mineCount.value
 
-    cells.value = Array.from({ length: totalCells }, () => ({
+    squares.value = Array.from({ length: totalSquares }, () => ({
       isMine: false,
       isRevealed: false,
       isFlagged: false,
@@ -220,13 +220,13 @@ export const useMinesweeper = defineStore('minesweeper', () => {
   }
 
   const checkIsVictory = () => {
-    isVictory.value = !cells.value.some((cell) => !cell.isMine && !cell.isRevealed)
+    isVictory.value = !squares.value.some((square) => !square.isMine && !square.isRevealed)
   }
 
   const restorePreviousStep = () => {
     isGameOver.value = false
     if (latestClickIndex.value === -1) return
-    cells.value[latestClickIndex.value].isRevealed = false
+    squares.value[latestClickIndex.value].isRevealed = false
     latestClickIndex.value = -1
   }
 
@@ -234,17 +234,12 @@ export const useMinesweeper = defineStore('minesweeper', () => {
     isGameOver.value = true
   }
 
-  watch(isVictory, (win) => {
-    if (win) {
-      flagAllMines()
-    }
-  })
-
-  restart()
+  // Created
+  restart({ boardSize: MINIMUM_BOARD_SIZE, mineCount: MINIMUM_MINE_COUNT })
 
   return {
     boardSize: readonly(boardSize),
-    cells: readonly(cells),
+    squares: readonly(squares),
     isGameOver: readonly(isGameOver),
     isVictory: readonly(isVictory),
     isStarted: readonly(isStarted),
@@ -258,6 +253,9 @@ export const useMinesweeper = defineStore('minesweeper', () => {
     doubleClickSquare,
     restorePreviousStep,
     showAllMines,
+    flagAllMines,
     setIsGameOver,
   }
 })
+
+export const minesweeperStoreToRefs = () => toRefs(useMinesweeper())
