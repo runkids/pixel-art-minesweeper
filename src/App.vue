@@ -3,7 +3,10 @@ import { useCountdown } from '@/composable/useCountdown'
 import { randomNumber } from '@/utils/index'
 import { useGameController } from '@/composable/useGameController'
 
-const initTime = randomNumber(200, 600)
+const initTime = (rank = 1) => {
+  const ratio = Math.floor(rank / 5) + 1
+  return randomNumber(ratio * 50, ratio * 150)
+}
 const showSuperStartDialog = ref(false)
 const showNextBtn = ref(false)
 
@@ -12,7 +15,7 @@ const {
   start: startCountdown,
   stop: stopCountdown,
   reset: resetCountdown,
-} = useCountdown(initTime, {
+} = useCountdown(initTime(), {
   onTimeUp: () => startBleed(),
 })
 
@@ -38,7 +41,7 @@ const { status, restartGame, startNextRank, consumeSuperStar, showAllMines, star
     }
   },
   onGameRestart: () => {
-    resetCountdown(randomNumber(200, 600))
+    resetCountdown(initTime(status.value.rank))
   },
 })
 
