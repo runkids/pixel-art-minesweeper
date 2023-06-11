@@ -41,6 +41,25 @@ const { status, restartGame, startNextRank, consumeSuperStar, showAllMines, star
   },
 })
 
+const actionBtnText = computed(() => {
+  if (!status.value.isStarted && status.value.rank === 1) {
+    return 'REFRESH'
+  } else if (status.value.isGameOver) {
+    return 'RESTART'
+  } else if (showNextBtn.value) {
+    return 'TO NEXT RANK'
+  }
+  return ''
+})
+
+const handleActionBtnClick = () => {
+  if (status.value.isGameOver || (!status.value.isStarted && status.value.rank === 1)) {
+    restartGame()
+  } else if (showNextBtn.value) {
+    handleStartNextRank()
+  }
+}
+
 const handleUseSuperStar = () => {
   consumeSuperStar()
   startCountdown()
@@ -61,11 +80,9 @@ const handleStartNextRank = () => {
     <section>
       <div class="box-border inline-flex flex-col items-center gap-y-10 p-20">
         <Minesweeper />
-        <button v-if="!status.isStarted && status.rank === 1" class="nes-btn is-warning" @click="restartGame">
-          REFRESH
+        <button v-if="actionBtnText" class="nes-btn is-warning" @click="handleActionBtnClick">
+          {{ actionBtnText }}
         </button>
-        <button v-if="status.isGameOver" class="nes-btn is-warning" @click="restartGame">RESTART</button>
-        <button v-if="showNextBtn" class="nes-btn is-warning" @click="handleStartNextRank">TO NEXT RANK</button>
       </div>
     </section>
   </main>
