@@ -1,5 +1,6 @@
 import { CharacterItems, characterStoreToRefs, useCharacter } from '@/stores/useCharacter'
-import { MINIMUM_BOARD_SIZE, MINIMUM_MINE_COUNT, minesweeperStoreToRefs, useMinesweeper } from '@/stores/useMinesweeper'
+import { MINIMUM_BOARD_SIZE, MINIMUM_MINE_COUNT } from '@/constants'
+import { minesweeperStoreToRefs, useMinesweeper } from '@/stores/useMinesweeper'
 
 import { randomNumber } from '@/utils/index'
 
@@ -81,9 +82,8 @@ export function useGameController(listeners?: Listeners) {
 
   const startNextRank = () => {
     rank.value += 1
-    character.updateHp(character.hp + 1)
     createBoard()
-    character.stopBleed()
+    character.updateHp(hp.value + 1)
   }
 
   const consumeSuperStar = () => {
@@ -96,7 +96,7 @@ export function useGameController(listeners?: Listeners) {
   }
 
   return {
-    status: readonly(status),
+    status,
     restartGame,
     startNextRank,
     consumeSuperStar,

@@ -1,3 +1,5 @@
+import { MINIMUM_BOARD_SIZE, MINIMUM_MINE_COUNT } from '@/constants'
+
 import { defineStore } from 'pinia'
 
 export interface Square {
@@ -7,6 +9,9 @@ export interface Square {
   adjacentMines: number
 }
 
+/**
+ * The delta of the square neighbors
+ */
 const deltas = [
   [-1, -1],
   [-1, 0],
@@ -17,9 +22,6 @@ const deltas = [
   [1, 0],
   [1, 1],
 ]
-
-export const MINIMUM_BOARD_SIZE = 8
-export const MINIMUM_MINE_COUNT = 10
 
 export const useMinesweeper = defineStore('minesweeper', () => {
   const boardSize = ref(0)
@@ -33,6 +35,12 @@ export const useMinesweeper = defineStore('minesweeper', () => {
   const isGameOver = ref(false)
   const isVictory = ref(false)
 
+  /**
+   * Track the square neighbors and call the callback function when the condition is met
+   * @param targetIndex
+   * @param condition
+   * @param callback
+   */
   const traverseSquareNeighbors = (
     targetIndex: number,
     condition: (neighborIdx: number) => boolean,
@@ -52,7 +60,10 @@ export const useMinesweeper = defineStore('minesweeper', () => {
     }
   }
 
-  // initial mines place and ensure first click is not a mine
+  /**
+   * initial mines place and ensure first click is not a mine
+   * @param firstIndex
+   */
   const placeMines = (firstIndex: number): Promise<Square[]> => {
     return new Promise((resolve) => {
       let minesToPlace = mineCount.value
@@ -157,6 +168,7 @@ export const useMinesweeper = defineStore('minesweeper', () => {
 
   const doubleClickSquare = (index: number) => {
     if (isGameOver.value || isVictory.value) return
+
     const square = squares.value[index]
     if (!square.isRevealed || square.adjacentMines === 0) {
       return
@@ -200,17 +212,24 @@ export const useMinesweeper = defineStore('minesweeper', () => {
     flags.value = 0
   }
 
+  /**
+   * Restart game
+   * @param config
+   */
   const restart = (config?: { boardSize: number; mineCount: number }) => {
+    // reset game state
+    latestClickIndex.value = -1
     isGameOver.value = false
     isStarted.value = false
     isVictory.value = false
-    latestClickIndex.value = -1
 
+    // reset board
     boardSize.value = config?.boardSize ?? MINIMUM_BOARD_SIZE
     const totalSquares = Math.pow(boardSize.value, 2)
     mineCount.value = config?.mineCount ?? MINIMUM_MINE_COUNT
     flags.value = mineCount.value
 
+    // reset squares
     squares.value = Array.from({ length: totalSquares }, () => ({
       isMine: false,
       isRevealed: false,
@@ -223,6 +242,9 @@ export const useMinesweeper = defineStore('minesweeper', () => {
     isVictory.value = !squares.value.some((square) => !square.isMine && !square.isRevealed)
   }
 
+  /**
+   * Restore previous step by latestClickIndex
+   */
   const restorePreviousStep = () => {
     isGameOver.value = false
     if (latestClickIndex.value === -1) return

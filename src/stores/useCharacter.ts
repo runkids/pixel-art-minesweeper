@@ -22,6 +22,12 @@ export const useCharacter = defineStore('character', () => {
     },
   })
 
+  watch(hp, () => {
+    if (hp.value === 0) {
+      stop()
+    }
+  })
+
   const startBleed = () => {
     start()
   }
@@ -29,12 +35,6 @@ export const useCharacter = defineStore('character', () => {
   const updateHp = (value: number = HP) => {
     hp.value = hp.value + value >= HP ? HP : value
   }
-
-  watch(hp, () => {
-    if (hp.value === 0) {
-      stop()
-    }
-  })
 
   const updatedItems = (cb: (items: CharacterItems) => CharacterItems) => {
     const newItems = cb(Object.assign({}, items.value))
