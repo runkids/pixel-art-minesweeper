@@ -13,7 +13,7 @@ export const useCharacter = defineStore('character', () => {
   const rank = ref(1)
   const items = ref<CharacterItems>({ timeMachine: 1, superStar: SUPER_STAR_LIMIT })
 
-  const { start, stop } = useCountdown(HP * 10, {
+  const { start: startBleed, stop: stopBleed } = useCountdown(HP * 10, {
     onCountdown: (counter) => {
       // Every 10 seconds, the character will lose 1 HP
       if (counter % 10 === 0) {
@@ -24,13 +24,9 @@ export const useCharacter = defineStore('character', () => {
 
   watch(hp, () => {
     if (hp.value === 0) {
-      stop()
+      stopBleed()
     }
   })
-
-  const startBleed = () => {
-    start()
-  }
 
   const updateHp = (value: number = HP) => {
     hp.value = hp.value + value >= HP ? HP : value
@@ -52,7 +48,7 @@ export const useCharacter = defineStore('character', () => {
     items: readonly(items),
     rank,
     startBleed,
-    stopBleed: stop,
+    stopBleed,
     updateHp,
     updatedItems,
     reset,
