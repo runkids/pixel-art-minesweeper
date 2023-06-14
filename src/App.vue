@@ -2,6 +2,7 @@
 import { useCountdown } from '@/composable/useCountdown'
 import { initTimeRange } from '@/utils/index'
 import { useGameController } from '@/composable/useGameController'
+import { useGameStatus } from '@/composable/useGameStatus'
 
 const showSuperStartDialog = ref(false)
 const showNextBtn = ref(false)
@@ -19,8 +20,9 @@ provide(
   'countdown',
   computed(() => countdown.value)
 )
+const { status } = useGameStatus()
 
-const { status, restartGame, startNextRank, consumeSuperStar, showAllMines, startBleed } = useGameController({
+const { restartGame, startNextRank, consumeSuperStar, showAllMines, startBleed } = useGameController({
   onGameStarted: () => {
     startCountdown()
   },

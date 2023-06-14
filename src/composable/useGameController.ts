@@ -16,19 +16,7 @@ export function useGameController(listeners?: Listeners) {
   const { items, rank, hp } = characterStoreToRefs()
 
   const minesweeper = useMinesweeper()
-  const { isGameOver, isVictory, isStarted, flags } = minesweeperStoreToRefs()
-
-  const status = computed(() => {
-    return {
-      hp: hp.value,
-      rank: rank.value,
-      items: items.value,
-      flags: flags.value,
-      isGameOver: isGameOver.value,
-      isStarted: isStarted.value,
-      isVictory: isVictory.value,
-    }
-  })
+  const { isGameOver, isVictory, isStarted } = minesweeperStoreToRefs()
 
   // Character Watcher
   watch(hp, () => {
@@ -96,7 +84,6 @@ export function useGameController(listeners?: Listeners) {
   }
 
   return {
-    status,
     restartGame,
     startNextRank,
     consumeSuperStar,

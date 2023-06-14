@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useGameController } from '@/composable/useGameController'
+import { useGameStatus } from '@/composable/useGameStatus'
 
 const countdown = inject('countdown', 0)
 
-const { status } = useGameController()
+const { status } = useGameStatus()
 </script>
 
 <script lang="ts">
