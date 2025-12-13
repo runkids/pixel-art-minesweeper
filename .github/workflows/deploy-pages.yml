@@ -46,7 +46,7 @@ jobs:
         run: corepack enable
 
       - name: Install dependencies
-        run: npm run install
+        run: npm install
 
       - name: Build
         run: npm run build
