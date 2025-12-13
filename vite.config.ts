@@ -7,14 +7,14 @@ import eslintPlugin from 'vite-plugin-eslint'
 import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   server: {
     open: true,
     port: 5173,
   },
   plugins: [
     vue(),
-    eslintPlugin({ cache: false }),
+    ...(command === 'serve' ? [eslintPlugin({ cache: false })] : []),
     AutoImport({
       dts: true,
       imports: ['vue'],
@@ -32,4 +32,4 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-})
+}))

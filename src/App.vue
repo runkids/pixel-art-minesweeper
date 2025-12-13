@@ -89,7 +89,7 @@ const handleStartNextRank = () => {
     </section>
   </main>
 
-  <Dialog v-model="showSuperStartDialog" @confirm="handleUseSuperStar" @close="showAllMines">
+  <Dialog v-model="showSuperStartDialog" confirmText="Confirm" cancelText="Cancel" @confirm="handleUseSuperStar" @close="showAllMines">
     <DialogUseSuperStarContent />
   </Dialog>
 </template>

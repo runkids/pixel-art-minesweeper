@@ -8,7 +8,6 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Dialog: typeof import('./src/components/Dialog/index.vue')['default']
-    DialogCompleteRankRewardContent: typeof import('./src/components/Dialog/CompleteRankRewardContent.vue')['default']
     DialogUseSuperStarContent: typeof import('./src/components/Dialog/UseSuperStarContent.vue')['default']
     Heart: typeof import('./src/components/Heart.vue')['default']
     Minesweeper: typeof import('./src/components/Minesweeper/index.vue')['default']
