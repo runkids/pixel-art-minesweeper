@@ -4,14 +4,75 @@
 
 body {
   @apply font-body m-0 p-0;
+  overflow-x: hidden;
 }
 
 .square.nes-btn {
   @apply bg-[#C6C6C6];
-  &.is-disabled, 
-  &.is-disabled:focus, 
+  &.is-disabled,
+  &.is-disabled:focus,
   &.is-disabled:hover,
   &.is-disabled:active {
     opacity: unset;
   }
+}
+
+/* Global Pixel Art Animations */
+@keyframes pixel-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes pixel-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+@keyframes pixel-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.9; }
+}
+
+@keyframes pixel-glow {
+  0%, 100% { box-shadow: 0 0 5px currentColor; }
+  50% { box-shadow: 0 0 15px currentColor, 0 0 25px currentColor; }
+}
+
+@keyframes rainbow-border {
+  0% { border-color: #ff0000; }
+  16% { border-color: #ff8800; }
+  33% { border-color: #ffff00; }
+  50% { border-color: #00ff00; }
+  66% { border-color: #0088ff; }
+  83% { border-color: #8800ff; }
+  100% { border-color: #ff0000; }
+}
+
+/* Pixel Font Styles */
+.pixel-text {
+  font-family: 'Press Start 2P', monospace;
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+}
+
+/* Animation utility classes */
+.animate-pixel-bounce {
+  animation: pixel-bounce 0.5s ease-in-out infinite;
+}
+
+.animate-pixel-shake {
+  animation: pixel-shake 0.3s ease-in-out infinite;
+}
+
+.animate-pixel-pulse {
+  animation: pixel-pulse 1s ease-in-out infinite;
+}
+
+.animate-pixel-glow {
+  animation: pixel-glow 2s ease-in-out infinite;
+}
+
+.animate-rainbow-border {
+  animation: rainbow-border 3s linear infinite;
 }
