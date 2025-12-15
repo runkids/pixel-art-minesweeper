@@ -85,12 +85,12 @@ const handleAttack = async () => {
 const handleFlee = async () => {
   if (Math.random() > 0.5) {
     // Flee successful
-    combatLog.value.push('成功逃跑!')
+    combatLog.value.push('Escaped successfully!')
     emit('flee')
     emit('update:modelValue', false)
   } else {
     // Flee failed, monster attacks
-    combatLog.value.push('逃跑失敗!')
+    combatLog.value.push('Failed to escape!')
     isMonsterAttacking.value = true
     await new Promise(resolve => setTimeout(resolve, 300))
 
@@ -160,11 +160,11 @@ const handleFlee = async () => {
           <div class="player-stats">
             <div class="stat">
               <span class="stat-icon">⚔️</span>
-              <span>攻擊: {{ totalAttack }}</span>
+              <span>ATK: {{ totalAttack }}</span>
             </div>
             <div class="stat">
               <span class="stat-icon">🛡️</span>
-              <span>防禦: {{ totalDefense }}</span>
+              <span>DEF: {{ totalDefense }}</span>
             </div>
           </div>
 
@@ -175,14 +175,14 @@ const handleFlee = async () => {
               :disabled="isAttacking || isMonsterAttacking"
               @click="handleAttack"
             >
-              ⚔️ 攻擊
+              ⚔️ Attack
             </button>
             <button
               class="nes-btn is-warning"
               :disabled="isAttacking || isMonsterAttacking"
               @click="handleFlee"
             >
-              🏃 逃跑
+              🏃 Flee
             </button>
           </div>
         </div>

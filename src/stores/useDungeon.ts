@@ -52,44 +52,44 @@ export interface Equipment {
 
 // Monster templates
 const MONSTER_TEMPLATES: Omit<Monster, 'id'>[] = [
-  { name: '史萊姆', emoji: '🟢', hp: 10, maxHp: 10, attack: 2, defense: 0, exp: 5, gold: 3, isBoss: false, description: '軟綿綿的綠色怪物' },
-  { name: '蝙蝠', emoji: '🦇', hp: 8, maxHp: 8, attack: 3, defense: 0, exp: 6, gold: 4, isBoss: false, description: '在黑暗中飛行的蝙蝠' },
-  { name: '骷髏兵', emoji: '💀', hp: 15, maxHp: 15, attack: 4, defense: 1, exp: 10, gold: 8, isBoss: false, description: '不死的骷髏戰士' },
-  { name: '哥布林', emoji: '👺', hp: 12, maxHp: 12, attack: 5, defense: 1, exp: 8, gold: 10, isBoss: false, description: '狡猾的小型怪物' },
-  { name: '幽靈', emoji: '👻', hp: 20, maxHp: 20, attack: 6, defense: 2, exp: 15, gold: 12, isBoss: false, description: '飄浮的靈體' },
-  { name: '惡魔', emoji: '😈', hp: 25, maxHp: 25, attack: 7, defense: 2, exp: 20, gold: 15, isBoss: false, description: '來自深淵的惡魔' },
-  { name: '石像鬼', emoji: '🗿', hp: 30, maxHp: 30, attack: 5, defense: 5, exp: 25, gold: 20, isBoss: false, description: '堅硬的石頭怪物' },
-  { name: '火焰精靈', emoji: '🔥', hp: 18, maxHp: 18, attack: 8, defense: 1, exp: 18, gold: 14, isBoss: false, description: '燃燒的元素生物' },
-  { name: '冰霜巨人', emoji: '🧊', hp: 35, maxHp: 35, attack: 6, defense: 4, exp: 30, gold: 25, isBoss: false, description: '冰冷的巨型怪物' },
-  { name: '毒蛇', emoji: '🐍', hp: 14, maxHp: 14, attack: 6, defense: 0, exp: 12, gold: 9, isBoss: false, description: '劇毒的蛇類' },
+  { name: 'Slime', emoji: '🟢', hp: 10, maxHp: 10, attack: 2, defense: 0, exp: 5, gold: 3, isBoss: false, description: 'A squishy green monster' },
+  { name: 'Bat', emoji: '🦇', hp: 8, maxHp: 8, attack: 3, defense: 0, exp: 6, gold: 4, isBoss: false, description: 'A bat flying in the dark' },
+  { name: 'Skeleton', emoji: '💀', hp: 15, maxHp: 15, attack: 4, defense: 1, exp: 10, gold: 8, isBoss: false, description: 'An undead skeleton warrior' },
+  { name: 'Goblin', emoji: '👺', hp: 12, maxHp: 12, attack: 5, defense: 1, exp: 8, gold: 10, isBoss: false, description: 'A cunning small monster' },
+  { name: 'Ghost', emoji: '👻', hp: 20, maxHp: 20, attack: 6, defense: 2, exp: 15, gold: 12, isBoss: false, description: 'A floating spirit' },
+  { name: 'Demon', emoji: '😈', hp: 25, maxHp: 25, attack: 7, defense: 2, exp: 20, gold: 15, isBoss: false, description: 'A demon from the abyss' },
+  { name: 'Gargoyle', emoji: '🗿', hp: 30, maxHp: 30, attack: 5, defense: 5, exp: 25, gold: 20, isBoss: false, description: 'A hard stone monster' },
+  { name: 'Fire Spirit', emoji: '🔥', hp: 18, maxHp: 18, attack: 8, defense: 1, exp: 18, gold: 14, isBoss: false, description: 'A burning elemental' },
+  { name: 'Frost Giant', emoji: '🧊', hp: 35, maxHp: 35, attack: 6, defense: 4, exp: 30, gold: 25, isBoss: false, description: 'A cold giant monster' },
+  { name: 'Viper', emoji: '🐍', hp: 14, maxHp: 14, attack: 6, defense: 0, exp: 12, gold: 9, isBoss: false, description: 'A venomous snake' },
 ]
 
 // Boss templates
 const BOSS_TEMPLATES: Omit<Monster, 'id'>[] = [
-  { name: '地城領主', emoji: '👹', hp: 50, maxHp: 50, attack: 10, defense: 3, exp: 100, gold: 50, isBoss: true, description: '統治這片地城的強大領主' },
-  { name: '暗黑龍王', emoji: '🐉', hp: 80, maxHp: 80, attack: 12, defense: 5, exp: 200, gold: 100, isBoss: true, description: '傳說中的黑龍' },
-  { name: '死亡騎士', emoji: '🏇', hp: 60, maxHp: 60, attack: 15, defense: 4, exp: 150, gold: 75, isBoss: true, description: '騎著幽靈馬的亡靈騎士' },
-  { name: '巫妖王', emoji: '🧙', hp: 70, maxHp: 70, attack: 14, defense: 3, exp: 180, gold: 90, isBoss: true, description: '強大的亡靈法師' },
-  { name: '地獄犬', emoji: '🐕‍🦺', hp: 90, maxHp: 90, attack: 11, defense: 6, exp: 250, gold: 120, isBoss: true, description: '守護地獄入口的三頭犬' },
+  { name: 'Dungeon Lord', emoji: '👹', hp: 50, maxHp: 50, attack: 10, defense: 3, exp: 100, gold: 50, isBoss: true, description: 'The powerful ruler of this dungeon' },
+  { name: 'Dark Dragon', emoji: '🐉', hp: 80, maxHp: 80, attack: 12, defense: 5, exp: 200, gold: 100, isBoss: true, description: 'A legendary black dragon' },
+  { name: 'Death Knight', emoji: '🏇', hp: 60, maxHp: 60, attack: 15, defense: 4, exp: 150, gold: 75, isBoss: true, description: 'An undead knight on a ghost horse' },
+  { name: 'Lich King', emoji: '🧙', hp: 70, maxHp: 70, attack: 14, defense: 3, exp: 180, gold: 90, isBoss: true, description: 'A powerful undead mage' },
+  { name: 'Cerberus', emoji: '🐕‍🦺', hp: 90, maxHp: 90, attack: 11, defense: 6, exp: 250, gold: 120, isBoss: true, description: 'The three-headed guardian of hell' },
 ]
 
 // Treasure templates
 const TREASURE_TEMPLATES: Omit<Treasure, 'id'>[] = [
-  { name: '金幣袋', emoji: '💰', type: 'gold', value: 20, description: '閃閃發光的金幣' },
-  { name: '寶石', emoji: '💎', type: 'gold', value: 50, description: '珍貴的寶石' },
-  { name: '生命藥水', emoji: '🧪', type: 'potion', value: 3, description: '恢復3點HP' },
-  { name: '大生命藥水', emoji: '⚗️', type: 'potion', value: 6, description: '恢復全部HP' },
-  { name: '技能卷軸', emoji: '📜', type: 'skill', value: 1, description: '學習新技能' },
-  { name: '神秘鑰匙', emoji: '🗝️', type: 'key', value: 1, description: '開啟寶箱的鑰匙' },
+  { name: 'Gold Bag', emoji: '💰', type: 'gold', value: 20, description: 'Shiny gold coins' },
+  { name: 'Gem', emoji: '💎', type: 'gold', value: 50, description: 'A precious gem' },
+  { name: 'Health Potion', emoji: '🧪', type: 'potion', value: 3, description: 'Restores 3 HP' },
+  { name: 'Large Potion', emoji: '⚗️', type: 'potion', value: 6, description: 'Restores full HP' },
+  { name: 'Skill Scroll', emoji: '📜', type: 'skill', value: 1, description: 'Learn a new skill' },
+  { name: 'Mystery Key', emoji: '🗝️', type: 'key', value: 1, description: 'Opens treasure chests' },
 ]
 
 // Skill templates
 const SKILL_TEMPLATES: Skill[] = [
-  { id: 'scan', name: '偵查術', emoji: '🔍', description: '揭示一個格子是否安全', cooldown: 3, currentCooldown: 0, manaCost: 1, effect: 'scan', charges: 3 },
-  { id: 'shield', name: '護盾術', emoji: '🛡️', description: '抵擋下一次地雷傷害', cooldown: 5, currentCooldown: 0, manaCost: 2, effect: 'shield' },
-  { id: 'bomb', name: '炸彈術', emoji: '💣', description: '安全揭開3x3範圍的格子', cooldown: 8, currentCooldown: 0, manaCost: 3, effect: 'bomb', charges: 1 },
-  { id: 'heal', name: '治癒術', emoji: '💚', description: '恢復2點HP', cooldown: 4, currentCooldown: 0, manaCost: 2, effect: 'heal', charges: 2 },
-  { id: 'reveal', name: '透視術', emoji: '👁️', description: '揭示所有地雷位置3秒', cooldown: 10, currentCooldown: 0, manaCost: 4, effect: 'reveal' },
+  { id: 'scan', name: 'Scan', emoji: '🔍', description: 'Reveal if a cell is safe', cooldown: 3, currentCooldown: 0, manaCost: 1, effect: 'scan', charges: 3 },
+  { id: 'shield', name: 'Shield', emoji: '🛡️', description: 'Block next mine damage', cooldown: 5, currentCooldown: 0, manaCost: 2, effect: 'shield' },
+  { id: 'bomb', name: 'Bomb', emoji: '💣', description: 'Safely reveal 3x3 area', cooldown: 8, currentCooldown: 0, manaCost: 3, effect: 'bomb', charges: 1 },
+  { id: 'heal', name: 'Heal', emoji: '💚', description: 'Restore 2 HP', cooldown: 4, currentCooldown: 0, manaCost: 2, effect: 'heal', charges: 2 },
+  { id: 'reveal', name: 'X-Ray', emoji: '👁️', description: 'Show all mines for 3 sec', cooldown: 10, currentCooldown: 0, manaCost: 4, effect: 'reveal' },
 ]
 
 let idCounter = 0
@@ -214,7 +214,7 @@ export const useDungeon = defineStore('dungeon', () => {
   const startCombat = (monster?: Monster) => {
     currentMonster.value = monster || generateMonster()
     isCombatActive.value = true
-    combatLog.value = [`遭遇 ${currentMonster.value.emoji} ${currentMonster.value.name}!`]
+    combatLog.value = [`Encountered ${currentMonster.value.emoji} ${currentMonster.value.name}!`]
   }
 
   // Player attacks monster
@@ -223,14 +223,14 @@ export const useDungeon = defineStore('dungeon', () => {
 
     const damage = Math.max(1, totalAttack.value - currentMonster.value.defense)
     currentMonster.value.hp -= damage
-    combatLog.value.push(`你造成 ${damage} 點傷害!`)
+    combatLog.value.push(`You dealt ${damage} damage!`)
 
     if (currentMonster.value.hp <= 0) {
       const rewards = {
         exp: currentMonster.value.exp,
         gold: currentMonster.value.gold,
       }
-      combatLog.value.push(`擊敗了 ${currentMonster.value.name}! 獲得 ${rewards.exp} 經驗值和 ${rewards.gold} 金幣`)
+      combatLog.value.push(`Defeated ${currentMonster.value.name}! Got ${rewards.exp} EXP and ${rewards.gold} Gold`)
 
       gold.value += rewards.gold
       exp.value += rewards.exp
@@ -256,12 +256,12 @@ export const useDungeon = defineStore('dungeon', () => {
     // Check shield
     if (hasShield.value) {
       hasShield.value = false
-      combatLog.value.push(`🛡️ 護盾抵擋了攻擊!`)
+      combatLog.value.push(`Shield blocked the attack!`)
       return 0
     }
 
     const damage = Math.max(1, currentMonster.value.attack - totalDefense.value)
-    combatLog.value.push(`${currentMonster.value.emoji} 對你造成 ${damage} 點傷害!`)
+    combatLog.value.push(`${currentMonster.value.emoji} dealt ${damage} damage to you!`)
     return damage
   }
 
@@ -272,7 +272,7 @@ export const useDungeon = defineStore('dungeon', () => {
     playerDefense.value += 1
     maxMana.value += 2
     mana.value = maxMana.value
-    combatLog.value.push(`🎉 升級! 等級 ${level.value}`)
+    combatLog.value.push(`Level Up! Now Lv.${level.value}`)
   }
 
   // Use skill

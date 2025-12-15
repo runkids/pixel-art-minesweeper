@@ -39,7 +39,7 @@ const isSkillDisabled = (skill: Skill) => {
           'is-primary': !isSkillDisabled(skill),
         }"
         :disabled="isSkillDisabled(skill)"
-        :title="`${skill.name}: ${skill.description}\n消耗: ${skill.manaCost} MP`"
+        :title="`${skill.name}: ${skill.description}\nCost: ${skill.manaCost} MP`"
         @click="handleSkillClick(skill)"
       >
         <span class="skill-emoji">{{ skill.emoji }}</span>
