@@ -11,16 +11,16 @@ export default {
 </script>
 
 <template>
-  <img v-if="emoji === 'mine'" class="nes-avatar" src="https://twemoji.maxcdn.com/36x36/1f4a3.png" />
-  <img v-if="emoji === 'flag'" class="nes-avatar" src="https://twemoji.maxcdn.com/36x36/1f6a7.png" />
-  <img v-if="emoji === 'chest'" class="nes-avatar treasure" src="https://twemoji.maxcdn.com/36x36/1f381.png" />
-  <img v-if="emoji === 'monster'" class="nes-avatar" src="https://twemoji.maxcdn.com/36x36/1f47e.png" />
-  <img v-if="emoji === 'boss'" class="nes-avatar boss" src="https://twemoji.maxcdn.com/36x36/1f479.png" />
-  <img v-if="emoji === 'potion'" class="nes-avatar" src="https://twemoji.maxcdn.com/36x36/1f9ea.png" />
-  <img v-if="emoji === 'key'" class="nes-avatar" src="https://twemoji.maxcdn.com/36x36/1f5dd.png" />
-  <img v-if="emoji === 'shield'" class="nes-avatar" src="https://twemoji.maxcdn.com/36x36/1f6e1.png" />
-  <img v-if="emoji === 'sword'" class="nes-avatar" src="https://twemoji.maxcdn.com/36x36/2694.png" />
-  <img v-if="emoji === 'star'" class="nes-avatar star" src="https://twemoji.maxcdn.com/36x36/2b50.png" />
+  <img v-if="emoji === 'mine'" class="nes-avatar" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/72x72/1f4a3.png" />
+  <img v-if="emoji === 'flag'" class="nes-avatar" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/72x72/1f6a9.png" />
+  <img v-if="emoji === 'chest'" class="nes-avatar treasure" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/72x72/1f381.png" />
+  <img v-if="emoji === 'monster'" class="nes-avatar" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/72x72/1f47e.png" />
+  <img v-if="emoji === 'boss'" class="nes-avatar boss" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/72x72/1f479.png" />
+  <img v-if="emoji === 'potion'" class="nes-avatar" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/72x72/1f9ea.png" />
+  <img v-if="emoji === 'key'" class="nes-avatar" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/72x72/1f5dd-fe0f.png" />
+  <img v-if="emoji === 'shield'" class="nes-avatar" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/72x72/1f6e1-fe0f.png" />
+  <img v-if="emoji === 'sword'" class="nes-avatar" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/72x72/2694-fe0f.png" />
+  <img v-if="emoji === 'star'" class="nes-avatar star" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/72x72/2b50.png" />
 </template>
 
 <style lang="scss" scoped>
