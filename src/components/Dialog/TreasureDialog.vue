@@ -20,11 +20,11 @@ const handleCollect = () => {
 const treasureTypeText = computed(() => {
   if (!props.treasure) return ''
   switch (props.treasure.type) {
-    case 'gold': return '金幣'
-    case 'potion': return '藥水'
-    case 'key': return '鑰匙'
-    case 'skill': return '技能卷軸'
-    default: return '寶物'
+    case 'gold': return 'Gold'
+    case 'potion': return 'Potion'
+    case 'key': return 'Key'
+    case 'skill': return 'Skill Scroll'
+    default: return 'Treasure'
   }
 })
 </script>
@@ -43,7 +43,7 @@ const treasureTypeText = computed(() => {
             </div>
           </div>
 
-          <h3 class="treasure-title">發現寶箱!</h3>
+          <h3 class="treasure-title">Treasure Found!</h3>
 
           <div class="treasure-content">
             <span class="treasure-emoji">{{ treasure.emoji }}</span>
@@ -58,7 +58,7 @@ const treasureTypeText = computed(() => {
               +{{ treasure.value }} 💰
             </template>
             <template v-else-if="treasure.type === 'potion'">
-              恢復 {{ treasure.value }} HP
+              Restore {{ treasure.value }} HP
             </template>
             <template v-else>
               +1
@@ -66,7 +66,7 @@ const treasureTypeText = computed(() => {
           </div>
 
           <button class="nes-btn is-success collect-btn" @click="handleCollect">
-            收取寶物!
+            Collect Treasure!
           </button>
         </div>
       </div>

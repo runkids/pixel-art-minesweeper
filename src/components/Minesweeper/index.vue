@@ -257,8 +257,8 @@ export default {
 
     <!-- Skill mode indicator -->
     <div v-if="skillMode !== 'none'" class="skill-indicator">
-      <span v-if="skillMode === 'scan'">🔍 選擇要偵查的格子</span>
-      <span v-else-if="skillMode === 'bomb'">💣 選擇炸彈中心點</span>
+      <span v-if="skillMode === 'scan'">🔍 Select a cell to scan</span>
+      <span v-else-if="skillMode === 'bomb'">💣 Select bomb center point</span>
     </div>
   </div>
 </template>

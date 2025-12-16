@@ -29,7 +29,7 @@ export default {
 
     <!-- Shield indicator -->
     <div v-if="hasShield" class="shield-active-indicator">
-      🛡️ 護盾啟動中
+      🛡️ Shield Active
     </div>
 
     <h2 v-if="status.isGameOver" class="mt-5 text-xl text-red-600 select-none animate-bounce">{{ 'GAME OVER' }}</h2>
